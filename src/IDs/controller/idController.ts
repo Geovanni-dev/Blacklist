@@ -6,20 +6,20 @@ import { z } from "zod";
 
 // schema para adicionar um id
 const addIdSchema = z.object({
-    id: z.string().min(4, "id deve ter no minimo 4 caracteres"),
+    id: z.string().trim().min(4, "id deve ter no minimo 4 caracteres"),
     server: z.number().min(1000).max(9999, "server deve ter exatos 4 numeros").int().optional()
 });
 
 //schema para buscar um id
 const searchIdSchema = z.object({
-    id: z.string().min(4, "id deve ter no minimo 4 caracteres")
+    id: z.string().trim().min(4, "id deve ter no minimo 4 caracteres")
 });
 
 //========== classe para controlar as rotas
 class idController { 
 
     //================funçao para buscar o id
-    async getId (req:Request, res:Response) { // funçao para buscar o id
+    async showId (req:Request, res:Response) { // funçao para buscar o id
         try {
         const { id } = searchIdSchema.parse(req.params); // parse para verificar se o id e valido
         const idSeach = await prisma.id.findFirst({ // busca o id no banco de dados
@@ -29,12 +29,12 @@ class idController {
         if (!idSeach) {
             return res.status(404).json({ error: "Id nao encontrado" });
         }
-
+        
         const finalId = idSeach.server  // se tiver server, concatena o id com o server na exibição
                 ? `${idSeach.id} ${idSeach.server}`
                 : idSeach.id;
-
-
+        
+        
         return res.json({ id: finalId }); // retorna o id encontrado
     } catch (error) {
        if (error instanceof z.ZodError) { // se o erro for do zod
@@ -46,8 +46,10 @@ class idController {
         return res.status(500).json({ error: "Erro ao buscar id" });
     }
 }
+
+
 //============== função para adicionar um novo id no Postgre
-    async createId (req:Request, res:Response) { // funçao para criar o id
+    async storeId (req:Request, res:Response) { // funçao para criar o id
         try {
             const { id, server } = addIdSchema.parse(req.body); // parse para verificar se o id e valido
             const idSeach = await prisma.id.findFirst({ // busca o id no banco de dados
@@ -62,7 +64,7 @@ class idController {
                     id,
                     server: server ?? null } // se n for adicionando server, cria um id sem server
             });
-
+            
             return res.json(newId); // retorna o id criado
         } catch (error) {
             if (error instanceof z.ZodError) { // se o erro for do zod
@@ -74,6 +76,36 @@ class idController {
             return res.status(500).json({ error: "Erro ao criar id" });
         }
     }
+
+//================ funçao para deletar o id
+    async destroyId (req:Request, res:Response) { // funçao para deletar o id
+        try {
+        const { id } = searchIdSchema.parse(req.params); // parse para verificar se o id e valido
+        const idSearch = await prisma.id.findFirst({ // busca o id no banco de dados
+            where: { id }
+        });
+        if (!idSearch) { // verifica se o id existe
+            return res.status(404).json({ error: "Id nao encontrado" });
+        }
+        const deletedId = await prisma.id.delete({ // deleta o id no banco de dados
+            where: { id } 
+        });
+        return res.json({ message: `Id ${deletedId.id} deletado com sucesso` }); // retorna a mensagem
+        } catch (error) { // se der erro
+            if (error instanceof z.ZodError) { // se o erro for do zod
+                return res.status(400).json({ error: "Erro de validação", 
+                    detalhes: error.flatten().fieldErrors // funçao para imprimir os erros
+            });
+            }
+            console.log(error); // se n for do zod
+            return res.status(500).json({ error: "Erro ao deletar id" });
+        }
+    }
+    
+    /*  - Pensei em fazer um PUT, mas como o ID é chave primária, o Prisma ia reclamar.
+        - Regra de negócio: se cadastrar o ID errado, deleta e cria de novo no painel.
+        - Bem mais limpo e evita gambiarra com o banco de dados.*/
+
 };
 
 export default new idController(); // exportação da classe

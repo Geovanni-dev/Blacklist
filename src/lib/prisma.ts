@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client"; // importação do PrismaClient para interagir com o banco de dados
+import { PrismaClient } from "@prisma/client"; //importação do PrismaClient para interagir com o banco de dados
 
 const prisma = new PrismaClient(); // criação de uma instância do PrismaClient para realizar operações no banco de dados
 

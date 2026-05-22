@@ -1,9 +1,14 @@
-import { Router } from "express"; // importação do express
-import idController from "../controller/idController.js";
+import { Router } from "express"; // importação da rota do express
+import idController from "../controller/idController.js"; // importação do controller
 
-const router = Router();
+const router = Router(); // criação da rota
 
-router.get("/:id", idController.getId); // rota para buscar o id
-router.post("/", idController.createId); // rota para criar o id
 
-export default router;
+//=================== rotas
+
+router.get("/:id", idController.showId); // rota para buscar o id
+router.post("/", idController.storeId); // rota para criar o id
+router.delete("/:id", idController.destroyId); // rota para deletar o id
+
+
+export default router; // exportação da rota
