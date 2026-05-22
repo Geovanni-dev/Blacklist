@@ -1,0 +1,15 @@
+
+generator client {  // configuração do gerador de cliente para o Prisma
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db { // configuração do datasource para o banco de dados PostgreSQL
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Id { // modelo para armazenar os ids no banco de dados
+  id       String      @id
+  server   Int?
+}
