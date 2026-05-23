@@ -6,23 +6,35 @@ import { z } from "zod";
 
 // schema para adicionar um id
 const addIdSchema = z.object({
-    id: z.string().trim().min(4, "id deve ter no minimo 4 caracteres"),
-    server: z.number().min(1000).max(9999, "server deve ter exatos 4 numeros").int().optional()
+    id: z.string().trim().regex(/^[0-9]+$/, "O ID deve conter apenas números").min(4, "id deve ter no minimo 4 caracteres"),
+
+    server: z.coerce.number().int(). 
+    min(1000, "server deve ter no minimo 4 numeros").
+    max(9999, "server deve ter no maximo 4 numeros").
+    optional() // Converte para número e valida se é um inteiro de 4 dígitos
 });
 
 //schema para buscar um id
 const searchIdSchema = z.object({
-    id: z.string().trim().min(4, "id deve ter no minimo 4 caracteres")
+    id: z.string().trim().min(4, "id deve ter no minimo 4 caracteres").transform((val) => {
+        const idClear = val.match(/\d+/); // Extrai a primeira sequência numérica dentro do id e ignora formatos como 74694823 (1278)
+        
+        if (idClear) { 
+        return idClear[0];
+        }
+        
+        return val;// Retorna a string original caso não possua dígitos, forçando o Zod a falhar
+    })
 });
 
 //========== classe para controlar as rotas
-class idController { 
+class IdController { 
 
     //================funçao para buscar o id
     async showId (req:Request, res:Response) { // funçao para buscar o id
         try {
         const { id } = searchIdSchema.parse(req.params); // parse para verificar se o id e valido
-        const idSeach = await prisma.id.findFirst({ // busca o id no banco de dados
+        const idSeach = await prisma.id.findUnique({ // busca o id no banco de dados
             where: { id }
         });
         //verifica se o id existe
@@ -52,7 +64,7 @@ class idController {
     async storeId (req:Request, res:Response) { // funçao para criar o id
         try {
             const { id, server } = addIdSchema.parse(req.body); // parse para verificar se o id e valido
-            const idSeach = await prisma.id.findFirst({ // busca o id no banco de dados
+            const idSeach = await prisma.id.findUnique({ // busca o id no banco de dados
                 where: { id }
             });
             //verifica se o id existe
@@ -81,7 +93,7 @@ class idController {
     async destroyId (req:Request, res:Response) { // funçao para deletar o id
         try {
         const { id } = searchIdSchema.parse(req.params); // parse para verificar se o id e valido
-        const idSearch = await prisma.id.findFirst({ // busca o id no banco de dados
+        const idSearch = await prisma.id.findUnique({ // busca o id no banco de dados
             where: { id }
         });
         if (!idSearch) { // verifica se o id existe
@@ -108,4 +120,4 @@ class idController {
 
 };
 
-export default new idController(); // exportação da classe
+export default new IdController(); // exportação da classe
