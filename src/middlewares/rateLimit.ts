@@ -1,6 +1,6 @@
 import { rateLimit } from "express-rate-limit"; // importação do express-rate-limit
 
- export class RateLimitMiddleware {
+class RateLimitMiddleware {
     private blockedIps: Record<string, number> = {};
 
     public middleware() {

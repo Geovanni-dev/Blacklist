@@ -1,7 +1,7 @@
 import 'dotenv/config';// importação do módulo dotenv para carregar as variáveis de ambiente do arquivo .env
 import express, { type Express } from 'express'; // importação do express
-import idRoutes from './IDs/routes/idRoutes.js'; // importação das rotas de IDs
-
+import { idRoutes } from './IDs/routes/idRoutes.js'; // importação das rotas de IDs
+import cors from 'cors'; // importação do módulo cors
 
 //================== classe para criar e configurar o servidor
 class Server {
@@ -16,6 +16,10 @@ class Server {
 
 private middleware(): void {
         this.app.use(express.json()); // configuração do middleware para parsear o corpo das requisições como JSON
+        this.app.use(cors()); // configuração do middleware cors
+        /*this.app.use(cors({
+        origin: process.env.CLIENT_URL!.split(",").map((url) => url.trim()),
+}));*/
     }
 
 private routes(): void { // configuração das rotas

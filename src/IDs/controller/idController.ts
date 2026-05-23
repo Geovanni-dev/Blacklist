@@ -120,4 +120,4 @@ class IdController {
 
 };
 
-export default new IdController(); // exportação da classe
+export const idController = new IdController();
