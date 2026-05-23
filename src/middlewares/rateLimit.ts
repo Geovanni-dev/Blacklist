@@ -1,12 +1,12 @@
 import { rateLimit } from "express-rate-limit"; // importação do express-rate-limit
 
-class RateLimitMiddleware {
+ export class RateLimitMiddleware {
     private blockedIps: Record<string, number> = {};
 
     public middleware() {
             return rateLimit({
             windowMs: 60 * 1000, // 1 minuto
-            max: 2, // Limite de solicitações por minuto
+            max: 15, // Limite de solicitações por minuto
     
             handler: (req, res) => {// Função pra lidar com o bloqueio
             const ip = req.ip ?? "";
@@ -26,5 +26,4 @@ class RateLimitMiddleware {
     })
   }
 };
-
-export default new RateLimitMiddleware();
+export const rateLimitMiddleware = new RateLimitMiddleware();
