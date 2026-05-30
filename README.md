@@ -39,7 +39,7 @@ Para respeitar a confidencialidade e a interface do cliente original, **separei 
     │   ├── app.ts              # Configuração do Express
     │   └── server.ts           # Inicialização do servidor
     ├── .dockerignore
-    ├── .env                    # Variáveis de ambiente
+    ├── .env.example                   # Variáveis de ambiente
     ├── docker-compose.yml      # Orquestração do container
     ├── Dockerfile              # Receita de construção da imagem
     ├── package.json
