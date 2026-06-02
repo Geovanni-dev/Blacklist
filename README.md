@@ -12,7 +12,7 @@
 
 Esta API foi originalmente desenvolvida como um **projeto freelance**, atuando como um serviço de consulta rápida para verificar IDs de contas do jogo Mobile Legends e ajudar a comunidade a identificar contas com histórico de roubo/fraudes antes de realizarem negociações.
 
-Para respeitar a confidencialidade e a interface do cliente original, **separei este back-end e criei um front-end dedicado exclusivamente para compor meu portfólio**, demonstrando toda a estrutura técnica e de segurança que construí para a aplicação.
+Para respeitar a confidencialidade e a interface do cliente original, **separei este back-end e criei um front-end dedicado exclusivamente para compor meu portfólio**, demonstrando toda a estrutura técnica e de segurança que construí para a aplicação. Veja o projeto ao vivo em: [idquery.grdev.app.br](https://idquery.grdev.app.br)
 
 ---
 
@@ -128,11 +128,10 @@ PORT=3333
 docker compose up -d --build
 ```
 
-**4. Acesse o projeto:**
+## 🌐 Deploy
 
-A API e a interface estarão rodando na porta `3333`:
+O projeto é hospedado em uma **VPS** com deploy contínuo via **GitHub Actions**. A cada push na branch `main` a imagem é reconstruída, enviada ao Docker Hub e o container é atualizado automaticamente no servidor.
 
-👉 http://localhost:3333
 
 ---
 
