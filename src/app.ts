@@ -8,8 +8,11 @@ class Server {
   public app: Express; // definição do tipo da propriedade app como express.Application
 
   constructor() {
+    // verifica se estamos em ambiente de desenvolvimento ou de produção
+    if (process.env.NODE_ENV === 'production') {
+      console.log = () => {}; // desativa o console.log em produção
+    }
     this.app = express(); // criação de uma instância do Express para configurar o servidor
-
     this.middleware(); // chamada do método para configurar os middlewares
     this.routes(); // chamada do método para configurar as rotas
   }
@@ -17,9 +20,10 @@ class Server {
   private middleware(): void {
     this.app.use(express.json()); // configuração do middleware para parsear o corpo das requisições como JSON
     /*this.app.use(cors()); cors para desenvolvimento*/
+    const clientUrl = process.env.CLIENT_URL || 'http://localhost:3000'; // url do front-end
     this.app.use(
       cors({
-        origin: process.env.CLIENT_URL!.split(',').map((url) => url.trim()),
+        origin: clientUrl.split(',').map((url) => url.trim()), // configura o cors para permitir mais de uma URL
       }),
     );
   }
