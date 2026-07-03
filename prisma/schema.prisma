@@ -13,5 +13,6 @@ datasource db { // configuração do datasource para o banco de dados PostgreSQL
 model Id { // modelo para armazenar os ids no banco de dados
   id       String      @id
   server   Int?
+  descricao String?
   @@schema ("IDQuery")
 }

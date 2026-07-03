@@ -18,6 +18,12 @@ const addIdSchema = z.object({
     .min(1000, 'server deve ter no minimo 4 numeros')
     .max(9999, 'server deve ter no maximo 4 numeros')
     .optional(), // Converte para número e valida se é um inteiro de 4 dígitos
+
+  descricao: z
+    .string()
+    .trim()
+    .min(4, 'descricao deve ter no minimo 4 caracteres')
+    .optional(),
 });
 
 //schema para buscar/deletar um id
@@ -52,6 +58,12 @@ const idsSchema = z.array(
       .min(1000, 'server deve ter no minimo 4 numeros')
       .max(9999, 'server deve ter no maximo 4 numeros')
       .optional(), // Converte para número e valida se é um inteiro de 4 dígitos
+
+    descricao: z
+      .string()
+      .trim()
+      .min(4, 'descricao deve ter no minimo 4 caracteres')
+      .optional(),
   }),
 );
 
@@ -71,11 +83,11 @@ class IdController {
         return res.status(404).json({ error: 'Id nao encontrado' });
       }
 
-      const finalId = idSeach.server // se tiver server, concatena o id com o server na exibição
-        ? `${idSeach.id} ${idSeach.server}`
-        : idSeach.id;
+      const finalId = `${idSeach.id}${
+        idSeach.server ? ` (${idSeach.server})` : ''
+      }${idSeach.descricao ? `, conta ${idSeach.descricao}` : ''}`;
 
-      return res.json({ id: finalId }); // retorna o id encontrado
+      return res.json({ id: finalId, descricao: idSeach.descricao }); // retorna o id encontrado
     } catch (error) {
       if (error instanceof z.ZodError) {
         // se o erro for do zod
@@ -93,7 +105,7 @@ class IdController {
   async storeId(req: Request, res: Response) {
     // funçao para criar o id
     try {
-      const { id, server } = addIdSchema.parse(req.body); // parse para verificar se o id e valido
+      const { id, server, descricao } = addIdSchema.parse(req.body); // parse para verificar se o id e valido
       const idSeach = await prisma.id.findUnique({
         // busca o id no banco de dados
         where: { id },
@@ -106,8 +118,9 @@ class IdController {
         // cria o id no banco de dados
         data: {
           id,
-          server: server ?? null,
-        }, // se n for adicionando server, cria um id sem server
+          server: server ?? null, // se n for adicionando server, cria um id sem server
+          descricao: descricao ?? null, // se n for adicionando descricao, cria um id sem descricao tbm
+        },
       });
 
       return res.json(newId); // retorna o id criado
@@ -181,6 +194,7 @@ class IdController {
         data: idList.map((entry) => ({
           id: entry.id, // pega o id
           server: entry.server ?? null, // se n for adicionando server, cria um id sem server
+          descricao: entry.descricao ?? null, // se n for adicionando descricao, cria um id sem descricao tbm
         })),
       });
       return res.json(newIds); // retorna os ids criados
