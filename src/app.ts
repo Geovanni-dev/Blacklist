@@ -19,7 +19,7 @@ class Server {
 
   private middleware(): void {
     this.app.use(express.json()); // configuração do middleware para parsear o corpo das requisições como JSON
-    /*this.app.use(cors()); cors para desenvolvimento*/
+    this.app.set('trust proxy', 1); // configuração do middleware para permitir o uso de proxies
     const clientUrl = process.env.CLIENT_URL || 'http://localhost:3000'; // url do front-end
     this.app.use(
       cors({
