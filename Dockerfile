@@ -29,7 +29,7 @@ FROM node:22.20.0-alpine
 WORKDIR /app
 
 # copia os arquivos de mapeamento de dependencias antes do restante do codigo
-COPY package*.json ./
+COPY package*.json yarn.lock ./
 
 # instala apenas as dependencias de producao ignorando as de desenvolvimento
 RUN yarn install --production
