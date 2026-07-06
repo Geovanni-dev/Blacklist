@@ -15,7 +15,7 @@
   <img src="https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"/>
 </p>
 
-> 💼 **Freelance Project** — This API was originally built for a client as a lookup service for the Mobile Legends community, allowing players to verify account IDs with a history of theft or fraud before making any trade. To respect the client's confidentiality and their private interface, I separated this back-end and created a dedicated front-end exclusively for my portfolio. See it live at: [idquery.grdev.app.br](https://idquery.grdev.app.br)
+> 💼 **Freelance Project** — This API was developed for a client as a lookup service for the Mobile Legends community, allowing players to verify account IDs with a history of theft or fraud before making any trade. See it live at: [blacklist.reicontas.com.br](https://blacklist.reicontas.com.br)
 
 ---
 

@@ -2,7 +2,7 @@
   <a href="README.md">🇺🇸 English</a>
 </p>
 
-# 🛡️ IDQuery Blacklist
+# 🛡️ Blacklist
 
 <p align="center">
   <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white"/>
@@ -15,7 +15,7 @@
   <img src="https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white"/>
 </p>
 
-> 💼 **Projeto Freelance** — Esta API foi desenvolvida originalmente para um cliente como um serviço de consulta para a comunidade de Mobile Legends, permitindo que jogadores verifiquem IDs de contas com histórico de roubo ou fraude antes de realizarem negociações. Para respeitar a confidencialidade do cliente e sua interface privada, separei este back-end e criei um front-end dedicado exclusivamente para o meu portfólio. Veja o projeto ao vivo em: [idquery.grdev.app.br](https://idquery.grdev.app.br)
+> 💼 **Projeto Freelance** — Esta API foi desenvolvida para um cliente como um serviço de consulta para a comunidade de Mobile Legends, permitindo que jogadores verifiquem IDs de contas com histórico de roubo ou fraude antes de realizarem negociações. Veja o projeto ao vivo em: [blacklist.reicontas.com.br](https://blacklist.reicontas.com.br)
 
 ---
 
