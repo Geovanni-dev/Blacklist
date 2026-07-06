@@ -34,6 +34,9 @@ COPY package*.json yarn.lock ./
 # instala apenas as dependencias de producao ignorando as de desenvolvimento
 RUN yarn install --production
 
+# copia a pasta do prisma para o container final
+COPY --from=builder /app/prisma ./prisma/
+
 # copia apenas o codigo compilado gerado no stage de build
 COPY --from=builder /app/dist ./dist
 
